@@ -1,5 +1,5 @@
 import { fabric } from "fabric";
-import { useCallback, useEffect, useLayoutEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 interface UseAutoResizeProps {
   canvas: fabric.Canvas | null;
@@ -66,12 +66,13 @@ export const useAutoResize = ({ canvas, container }: UseAutoResizeProps) => {
     });
   }, [canvas, container]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     let resizeObserver: ResizeObserver | null = null;
 
     if (canvas && container) {
       resizeObserver = new ResizeObserver(() => {
-        autoZoom();
+        // 다음 프레임까지 기다리도록 설정
+        requestAnimationFrame(() => autoZoom());
       });
 
       resizeObserver.observe(container);
