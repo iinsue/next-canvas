@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-import { ActiveTool } from "@/features/editor/types";
+import { ActiveTool, Editor } from "@/features/editor/types";
 
 import { ShapeTool } from "@/features/editor/components/shape-tool";
 import { ToolSidebarClose } from "@/features/editor/components/tool-sidebar-close";
@@ -13,11 +13,13 @@ import { IoTriangle } from "react-icons/io5";
 import { FaCircle, FaSquare, FaSquareFull } from "react-icons/fa";
 
 interface ShapeSidebarProps {
+  editor: Editor | undefined;
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
 }
 
 export const ShapeSidebar = ({
+  editor,
   activeTool,
   onChangeActiveTool,
 }: ShapeSidebarProps) => {
@@ -39,17 +41,23 @@ export const ShapeSidebar = ({
 
       <ScrollArea>
         <div className="grid grid-cols-3 gap-4 p-4">
-          <ShapeTool onClick={() => {}} icon={FaCircle} />
-          <ShapeTool onClick={() => {}} icon={FaSquare} />
-          <ShapeTool onClick={() => {}} icon={FaSquareFull} />
-          <ShapeTool onClick={() => {}} icon={IoTriangle} />
+          <ShapeTool onClick={() => editor?.addCircle()} icon={FaCircle} />
           <ShapeTool
-            onClick={() => {}}
+            onClick={() => editor?.addSoftRectangle()}
+            icon={FaSquare}
+          />
+          <ShapeTool
+            onClick={() => editor?.addRectangle()}
+            icon={FaSquareFull}
+          />
+          <ShapeTool onClick={() => editor?.addTriangle()} icon={IoTriangle} />
+          <ShapeTool
+            onClick={() => editor?.addInverseTriangle()}
             icon={IoTriangle}
             iconClassName="rotate-180"
           />
           <ShapeTool
-            onClick={() => {}}
+            onClick={() => editor?.addDiamond()}
             icon={FaDiamond}
             iconClassName="rotate-180"
           />
