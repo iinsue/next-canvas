@@ -1,5 +1,6 @@
 "use client";
 
+import { ActiveTool } from "@/features/editor/types";
 import { Logo } from "@/features/editor/components/logo";
 
 import { Hint } from "@/components/hint";
@@ -21,8 +22,14 @@ import {
   Redo2Icon,
   Undo2Icon,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export const Navbar = () => {
+interface NavbarProps {
+  activeTool: ActiveTool;
+  onChangeActiveTool: (tool: ActiveTool) => void;
+}
+
+export const Navbar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
   return (
     <nav className="flex h-[68px] w-full items-center gap-x-8 border-b p-4 lg:pl-[34px]">
       <Logo />
@@ -57,10 +64,8 @@ export const Navbar = () => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => {
-              // TODO: 포인터 전환 기능
-            }}
-            className="" // TODO: 동적 스타일 추가
+            onClick={() => onChangeActiveTool("select")}
+            className={cn(activeTool === "select" && "bg-gray-100")}
           >
             <MousePointerClickIcon className="size-4" />
           </Button>
