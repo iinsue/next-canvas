@@ -9,6 +9,7 @@ import { Footer } from "@/features/editor/components/footer";
 import { Navbar } from "@/features/editor/components/navbar";
 import { Toolbar } from "@/features/editor/components/toolbar";
 import { Sidebar } from "@/features/editor/components/sidebar";
+import { ShapeSidebar } from "@/features/editor/components/shape-sidebar";
 
 import { ActiveTool } from "@/features/editor/types";
 
@@ -34,7 +35,7 @@ export const Editor = () => {
     [activeTool],
   );
 
-  const { init } = useEditor();
+  const { init, editor } = useEditor();
 
   const canvasRef = useRef(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -63,6 +64,13 @@ export const Editor = () => {
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
         />
+
+        <ShapeSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+
         <main className="relative flex flex-1 flex-col overflow-auto bg-muted">
           <Toolbar />
           <div
