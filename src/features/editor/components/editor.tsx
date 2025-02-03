@@ -12,6 +12,7 @@ import { Sidebar } from "@/features/editor/components/sidebar";
 import { ShapeSidebar } from "@/features/editor/components/shape-sidebar";
 import { FillColorSidebar } from "@/features/editor/components/fill-color-sidebar";
 import { StrokeColorSidebar } from "@/features/editor/components/stroke-color-sidebar";
+import { StrokeWidthSidebar } from "@/features/editor/components/stroke-width-sidebar";
 
 import { ActiveTool, selectionDependentTools } from "@/features/editor/types";
 
@@ -88,6 +89,12 @@ export const Editor = () => {
         />
 
         <StrokeColorSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+
+        <StrokeWidthSidebar
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
