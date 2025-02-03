@@ -1,8 +1,9 @@
+import { cn } from "@/lib/utils";
+
 import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
+
 import { ActiveTool, Editor } from "@/features/editor/types";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
 
 interface ToolbarProps {
   editor: Editor | undefined;
@@ -15,17 +16,8 @@ export const Toolbar = ({
   activeTool,
   onChangeActiveTool,
 }: ToolbarProps) => {
-  const selectedObject = editor?.canvas.getActiveObject();
-
-  const getProperty = (property: any) => {
-    if (!selectedObject) return null;
-
-    return selectedObject.get(property);
-  };
-
   const fillColor = editor?.getActiveFillColor();
-
-  const [properties, setProperties] = useState({ fillColor });
+  const strokeColor = editor?.getActiveStrokeColor();
 
   if (editor?.selectedObjects.length === 0) {
     return (
@@ -35,19 +27,37 @@ export const Toolbar = ({
 
   return (
     <div className="z-[49] flex h-[56px] w-full shrink-0 items-center gap-x-2 overflow-x-auto border-b bg-white p-2">
-      <Hint label="Color" side="bottom" sideOffset={5}>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => onChangeActiveTool("fill")}
-          className={cn(activeTool === "fill" && "bg-gray-100")}
-        >
-          <div
-            className="size-4 rounded-md border"
-            style={{ backgroundColor: fillColor }}
-          />
-        </Button>
-      </Hint>
+      <div className="flex h-full items-center justify-center">
+        <Hint label="Color" side="bottom" sideOffset={5}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onChangeActiveTool("fill")}
+            className={cn(activeTool === "fill" && "bg-gray-100")}
+          >
+            <div
+              className="size-4 rounded-md border"
+              style={{ backgroundColor: fillColor }}
+            />
+          </Button>
+        </Hint>
+      </div>
+
+      <div className="flex h-full items-center justify-center">
+        <Hint label="Stroke color" side="bottom" sideOffset={5}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onChangeActiveTool("stroke-color")}
+            className={cn(activeTool === "stroke-color" && "bg-gray-100")}
+          >
+            <div
+              className="size-4 rounded-md border-2 bg-white"
+              style={{ borderColor: strokeColor }}
+            />
+          </Button>
+        </Hint>
+      </div>
     </div>
   );
 };

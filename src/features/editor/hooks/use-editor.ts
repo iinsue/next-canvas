@@ -179,13 +179,24 @@ const buildEditor = ({
         return fillColor;
       }
 
-      const value = selectedObject.get("fill") || fillColor;
+      const value = selectedObject.get("fill") ?? fillColor;
+
+      // 그라데이션이나 패턴은 지원하지 않기때문에 문자열로 반환
+      return value as string;
+    },
+
+    getActiveStrokeColor: () => {
+      const selectedObject = selectedObjects[0];
+      if (!selectedObject) {
+        return fillColor;
+      }
+
+      const value = selectedObject.get("stroke") ?? strokeColor;
 
       // 그라데이션이나 패턴은 지원하지 않기때문에 문자열로 반환
       return value as string;
     },
     strokeWidth,
-    strokeColor,
     selectedObjects,
   };
 };
