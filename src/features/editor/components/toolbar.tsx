@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 
 import { ActiveTool, Editor } from "@/features/editor/types";
 
-import { BsBorderWidth as BsBorderWidthIcon } from "react-icons/bs";
+import { RxTransparencyGrid } from "react-icons/rx";
 import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
+import { BsBorderWidth as BsBorderWidthIcon } from "react-icons/bs";
 
 interface ToolbarProps {
   editor: Editor | undefined;
@@ -100,6 +101,22 @@ export const Toolbar = ({
             className="[&_svg]:size-4"
           >
             <ArrowDownIcon />
+          </Button>
+        </Hint>
+      </div>
+
+      <div className="flex h-full items-center justify-center">
+        <Hint label="Opacity" side="bottom" sideOffset={5}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onChangeActiveTool("opacity")}
+            className={cn(
+              activeTool === "opacity" && "bg-gray-100",
+              "[&_svg]:size-4",
+            )}
+          >
+            <RxTransparencyGrid />
           </Button>
         </Hint>
       </div>
