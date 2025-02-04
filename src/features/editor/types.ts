@@ -1,4 +1,5 @@
 import { fabric } from "fabric";
+import { ITextboxOptions } from "fabric/fabric-impl";
 import * as material from "material-colors";
 
 // 선택해제되면 초기화시키는 툴 리스트
@@ -57,6 +58,8 @@ export const FILL_COLOR = "rgba(0,0,0,1)";
 export const STROKE_COLOR = "rgba(0,0,0,1)";
 export const STROKE_WIDTH = 2;
 export const STROKE_DASH_ARRAY = [];
+export const FONT_FAMILY = "Arial";
+export const FONT_SIZE = 32;
 
 // 각 옵션들은 Shape 클릭 시 기본 스타일을 의미
 export const CIRCLE_OPTIONS = {
@@ -90,6 +93,15 @@ export const TRIANGLE_OPTIONS = {
   angle: 0,
 };
 
+export const TEXT_OPTIONS = {
+  type: "textbox",
+  left: 100,
+  top: 100,
+  fill: FILL_COLOR,
+  fontSize: FONT_SIZE,
+  fontFamily: FONT_FAMILY,
+};
+
 export const DIAMOND_OPTIONS = {
   left: 100,
   top: 100,
@@ -120,6 +132,7 @@ export type BuildEditorProps = {
 
 // 에디터에서 수행하는 이벤트 타입
 export interface Editor {
+  addText: (value: string, options?: ITextboxOptions) => void;
   getActiveOpacity: () => number;
   changeOpacity: (value: number) => void;
   bringForward: () => void;
