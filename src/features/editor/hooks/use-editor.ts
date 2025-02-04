@@ -1,6 +1,7 @@
 import { fabric } from "fabric";
-import { isTextType } from "@/features/editor/utils";
 import { useCallback, useMemo, useState } from "react";
+
+import { isTextType } from "@/features/editor/utils";
 
 import { useAutoResize } from "@/features/editor/hooks/use-auto-resize";
 import { useCanvasEvents } from "@/features/editor/hooks/use-canvas-events";
@@ -18,12 +19,17 @@ import {
   EditorHookProps,
   STROKE_DASH_ARRAY,
   TEXT_OPTIONS,
+  FONT_FAMILY,
+  FONT_WEIGHT,
 } from "@/features/editor/types";
+
 
 // Shape 추가 기능 담당
 const buildEditor = ({
   canvas,
   fillColor,
+  fontFamily,
+  setFontFamily,
   strokeColor,
   strokeWidth,
   strokeDashArray,
@@ -78,6 +84,119 @@ const buildEditor = ({
       return value;
     },
 
+    changeFontLinethrough: (value: boolean) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          // @ts-ignore
+          // linethrough는 존재함.-TS Library에러
+          object.set({ linethrough: value });
+        }
+      });
+      canvas.renderAll();
+    },
+
+    getActiveFontLinethrough: () => {
+      const selectedObject = selectedObjects[0];
+
+      if (!selectedObject) {
+        return false;
+      }
+
+      // @ts-ignore
+      // linethrough는 존재함.-TS Library에러
+      const value = selectedObject.get("linethrough") ?? false;
+
+      return value;
+    },
+
+    changeFontUnderline: (value: boolean) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          // @ts-ignore
+          // underline은 존재함.-TS Library에러
+          object.set({ underline: value });
+        }
+      });
+      canvas.renderAll();
+    },
+
+    getActiveFontUnderline: () => {
+      const selectedObject = selectedObjects[0];
+
+      if (!selectedObject) {
+        return false;
+      }
+
+      // @ts-ignore
+      // underline은 존재함.-TS Library에러
+      const value = selectedObject.get("underline") ?? false;
+
+      return value;
+    },
+
+    changeTextAlign: (value: string) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          // @ts-ignore
+          // textAlign은 존재함.-TS Library에러
+          object.set({ textAlign: value });
+        }
+      });
+      canvas.renderAll();
+    },
+
+    getActiveTextAlign: () => {
+      const selectedObject = selectedObjects[0];
+
+      if (!selectedObject) {
+        return "left";
+      }
+
+      // @ts-ignore
+      // textAlign은 존재함.-TS Library에러
+      const value = selectedObject.get("textAlign") ?? "left";
+
+      return value;
+    },
+
+    changeFontStyle: (value: string) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+
+          // @ts-ignore
+          // fontStyle은 존재함.-TS Library에러
+          object.set({ fontStyle: value });
+        }
+      });
+      canvas.renderAll();
+    },
+
+    getActiveFontStyle: () => {
+      const selectedObject = selectedObjects[0];
+
+      if (!selectedObject) {
+        return "normal";
+      }
+
+      // @ts-ignore
+      // fontStyle은 존재함.-TS Library에러
+      const value = selectedObject.get("fontStyle") ?? "normal";
+
+      return value;
+    },
+
+    changeFontWeight: (value: number) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+
+          // @ts-ignore
+          // fontWeight는 존재함.-TS Library에러
+          object.set({ fontWeight: value });
+        }
+      });
+      canvas.renderAll();
+    },
+
     changeOpacity: (value: number) => {
       canvas.getActiveObjects().forEach((object) => {
         object.set({ opacity: value });
@@ -107,6 +226,18 @@ const buildEditor = ({
       // 워크스페이스는 가장뒤에 있도록 설정
       const workspace = getWorkspace();
       workspace?.sendToBack();
+    },
+
+    changeFontFamily: (value: string) => {
+      setFontFamily(value);
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          // @ts-ignore
+          // fontFamily는 존재함.- TS Library에러
+          object.set({ fontFamily: value });
+        }
+      });
+      canvas.renderAll();
     },
 
     changeFillColor: (value: string) => {
@@ -256,6 +387,34 @@ const buildEditor = ({
       return value as string;
     },
 
+    getActiveFontFamily: () => {
+      const selectedObject = selectedObjects[0];
+
+      if (!selectedObject) {
+        return fontFamily;
+      }
+
+      // @ts-ignore
+      // fontFamily는 존재함.-TS Library에러
+      const value = selectedObject.get("fontFamily") ?? fontFamily;
+
+      return value;
+    },
+
+    getActiveFontWeight: () => {
+      const selectedObject = selectedObjects[0];
+
+      if (!selectedObject) {
+        return FONT_WEIGHT;
+      }
+
+      // @ts-ignore
+      // fontWeight는 존재함.-TS Library에러
+      const value = selectedObject.get("fontWeight") ?? FONT_WEIGHT;
+
+      return value;
+    },
+
     getActiveStrokeColor: () => {
       const selectedObject = selectedObjects[0];
       if (!selectedObject) {
@@ -298,6 +457,7 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [selectedObjects, setSelectedObjects] = useState<fabric.Object[]>([]);
 
+  const [fontFamily, setFontFamily] = useState(FONT_FAMILY);
   const [fillColor, setFillColor] = useState(FILL_COLOR);
   const [strokeColor, setStrokeColor] = useState(STROKE_COLOR);
   const [strokeWidth, setStrokeWidth] = useState(STROKE_WIDTH);
@@ -324,6 +484,8 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
         setStrokeWidth,
         setStrokeDashArray,
         selectedObjects,
+        fontFamily,
+        setFontFamily,
       });
     }
 
@@ -335,6 +497,7 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
     strokeWidth,
     selectedObjects,
     strokeDashArray,
+    fontFamily
   ]);
 
   const init = useCallback(
