@@ -31,6 +31,7 @@ import {
   ArrowDownIcon,
   ArrowUpIcon,
   ChevronDownIcon,
+  TrashIcon,
 } from "lucide-react";
 
 interface ToolbarProps {
@@ -377,6 +378,22 @@ export const Toolbar = ({
             )}
           >
             <RxTransparencyGrid />
+          </Button>
+        </Hint>
+      </div>
+
+      <div className="flex h-full items-center justify-center">
+        <Hint label="Delete" side="bottom" sideOffset={5}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => editor?.delete()}
+            className={cn(
+              activeTool === "opacity" && "bg-gray-100",
+              "[&_svg]:size-4",
+            )}
+          >
+            <TrashIcon />
           </Button>
         </Hint>
       </div>
