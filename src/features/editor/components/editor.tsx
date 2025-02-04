@@ -9,6 +9,7 @@ import { Footer } from "@/features/editor/components/footer";
 import { Navbar } from "@/features/editor/components/navbar";
 import { Toolbar } from "@/features/editor/components/toolbar";
 import { Sidebar } from "@/features/editor/components/sidebar";
+import { FontSidebar } from "@/features/editor/components/font-sidebar";
 import { TextSidebar } from "@/features/editor/components/text-sidebar";
 import { ShapeSidebar } from "@/features/editor/components/shape-sidebar";
 import { OpacitySidebar } from "@/features/editor/components/opacity-sidebar";
@@ -109,6 +110,12 @@ export const Editor = () => {
         />
 
         <TextSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+
+        <FontSidebar
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}

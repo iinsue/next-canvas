@@ -18,12 +18,15 @@ import {
   EditorHookProps,
   STROKE_DASH_ARRAY,
   TEXT_OPTIONS,
+  FONT_FAMILY,
 } from "@/features/editor/types";
 
 // Shape 추가 기능 담당
 const buildEditor = ({
   canvas,
   fillColor,
+  fontFamily,
+  setFontFamily,
   strokeColor,
   strokeWidth,
   strokeDashArray,
@@ -107,6 +110,18 @@ const buildEditor = ({
       // 워크스페이스는 가장뒤에 있도록 설정
       const workspace = getWorkspace();
       workspace?.sendToBack();
+    },
+
+    changeFontFamily: (value: string) => {
+      setFontFamily(value);
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          // @ts-ignore
+          // fontFamily는 존재함.- TS Library에러
+          object.set({ fontFamily: value });
+        }
+      });
+      canvas.renderAll();
     },
 
     changeFillColor: (value: string) => {
@@ -256,6 +271,20 @@ const buildEditor = ({
       return value as string;
     },
 
+    getActiveFontFamily: () => {
+      const selectedObject = selectedObjects[0];
+
+      if (!selectedObject) {
+        return fontFamily;
+      }
+
+      // @ts-ignore
+      // fontFamily는 존재함.-TS Library에러
+      const value = selectedObject.get("fontFamily") ?? fontFamily;
+
+      return value;
+    },
+
     getActiveStrokeColor: () => {
       const selectedObject = selectedObjects[0];
       if (!selectedObject) {
@@ -298,6 +327,7 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [selectedObjects, setSelectedObjects] = useState<fabric.Object[]>([]);
 
+  const [fontFamily, setFontFamily] = useState(FONT_FAMILY);
   const [fillColor, setFillColor] = useState(FILL_COLOR);
   const [strokeColor, setStrokeColor] = useState(STROKE_COLOR);
   const [strokeWidth, setStrokeWidth] = useState(STROKE_WIDTH);
@@ -324,6 +354,8 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
         setStrokeWidth,
         setStrokeDashArray,
         selectedObjects,
+        fontFamily,
+        setFontFamily,
       });
     }
 
@@ -335,6 +367,7 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
     strokeWidth,
     selectedObjects,
     strokeDashArray,
+    fontFamily
   ]);
 
   const init = useCallback(
