@@ -55,6 +55,30 @@ const buildEditor = ({
   };
 
   return {
+    bringForward: () => {
+      canvas.getActiveObjects().forEach((object) => {
+        canvas.bringForward(object);
+      });
+
+      canvas.renderAll();
+
+      // 워크스페이스는 가장뒤에 있도록 설정
+      const workspace = getWorkspace();
+      workspace?.sendToBack();
+    },
+
+    sendBackwards: () => {
+      canvas.getActiveObjects().forEach((object) => {
+        canvas.sendBackwards(object);
+      });
+
+      canvas.renderAll();
+
+      // 워크스페이스는 가장뒤에 있도록 설정
+      const workspace = getWorkspace();
+      workspace?.sendToBack();
+    },
+
     changeFillColor: (value: string) => {
       setFillColor(value);
       canvas.getActiveObjects().forEach((object) => {

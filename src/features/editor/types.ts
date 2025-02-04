@@ -120,6 +120,8 @@ export type BuildEditorProps = {
 
 // 에디터에서 수행하는 이벤트 타입
 export interface Editor {
+  bringForward: () => void;
+  sendBackwards: () => void;
   changeStrokeColor: (value: string) => void;
   changeFillColor: (value: string) => void;
   changeStrokeWidth: (value: number) => void;
