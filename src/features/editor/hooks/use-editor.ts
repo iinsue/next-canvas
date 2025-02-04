@@ -21,6 +21,7 @@ import {
   TEXT_OPTIONS,
   FONT_FAMILY,
   FONT_WEIGHT,
+  FONT_SIZE,
 } from "@/features/editor/types";
 
 
@@ -155,6 +156,31 @@ const buildEditor = ({
       // @ts-ignore
       // textAlign은 존재함.-TS Library에러
       const value = selectedObject.get("textAlign") ?? "left";
+
+      return value;
+    },
+
+    changeFontSize: (value: number) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          // @ts-ignore
+          // fontSize 존재함.-TS Library에러
+          object.set({ fontSize: value });
+        }
+      });
+      canvas.renderAll();
+    },
+
+    getActiveFontSize: () => {
+      const selectedObject = selectedObjects[0];
+
+      if (!selectedObject) {
+        return FONT_SIZE;
+      }
+
+      // @ts-ignore
+      // fontSize 존재함.-TS Library에러
+      const value = selectedObject.get("fontSize") ?? "left";
 
       return value;
     },
@@ -486,6 +512,7 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
         selectedObjects,
         fontFamily,
         setFontFamily,
+
       });
     }
 
