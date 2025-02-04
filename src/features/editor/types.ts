@@ -56,6 +56,7 @@ export type ActiveTool =
 export const FILL_COLOR = "rgba(0,0,0,1)";
 export const STROKE_COLOR = "rgba(0,0,0,1)";
 export const STROKE_WIDTH = 2;
+export const STROKE_DASH_ARRAY = [];
 
 // 각 옵션들은 Shape 클릭 시 기본 스타일을 의미
 export const CIRCLE_OPTIONS = {
@@ -110,9 +111,11 @@ export type BuildEditorProps = {
   strokeColor: string;
   strokeWidth: number;
   selectedObjects: fabric.Object[];
+  strokeDashArray: number[];
   setFillColor: (value: string) => void;
   setStrokeColor: (value: string) => void;
   setStrokeWidth: (value: number) => void;
+  setStrokeDashArray: (value: number[]) => void;
 };
 
 // 에디터에서 수행하는 이벤트 타입
@@ -120,6 +123,7 @@ export interface Editor {
   changeStrokeColor: (value: string) => void;
   changeFillColor: (value: string) => void;
   changeStrokeWidth: (value: number) => void;
+  changeStrokeDashArray: (value: number[]) => void;
   addCircle: () => void;
   addSoftRectangle: () => void;
   addRectangle: () => void;
@@ -129,6 +133,7 @@ export interface Editor {
   canvas: fabric.Canvas;
   getActiveFillColor: () => string; // string | fabric.Pattern | fabric.Gradient;
   getActiveStrokeColor: () => string;
-  strokeWidth: number;
+  getActiveStrokeWidth: () => number;
+  getActiveStrokeDashArray: () => number[];
   selectedObjects: fabric.Object[];
 }
