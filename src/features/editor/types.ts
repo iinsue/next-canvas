@@ -157,6 +157,7 @@ export type BuildEditorProps = {
 
 // 에디터에서 수행하는 이벤트 타입
 export interface Editor {
+  delete: () => void;
   changeFontSize: (value: number) => void;
   changeTextAlign: (value: string) => void;
   changeFontUnderline: (value: boolean) => void;
