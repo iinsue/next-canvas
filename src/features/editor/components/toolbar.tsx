@@ -5,9 +5,16 @@ import { cn } from "@/lib/utils";
 import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
 
+import { FontSizeInput } from "@/features/editor/components/font-size-input";
+
 import { isTextType } from "@/features/editor/utils";
 
-import { ActiveTool, Editor, FONT_WEIGHT } from "@/features/editor/types";
+import {
+  ActiveTool,
+  Editor,
+  FONT_SIZE,
+  FONT_WEIGHT,
+} from "@/features/editor/types";
 
 import { RxTransparencyGrid } from "react-icons/rx";
 import {
@@ -46,6 +53,7 @@ export const Toolbar = ({
   const initialFontLinethrough = editor?.getActiveFontLinethrough();
   const initialFontUnderline = editor?.getActiveFontUnderline();
   const initialTextAlign = editor?.getActiveTextAlign();
+  const initialFontSize = editor?.getActiveFontSize() ?? FONT_SIZE;
 
   const [properties, setProperties] = useState({
     fillColor: initialFillColor,
@@ -56,12 +64,21 @@ export const Toolbar = ({
     fontLinethrough: initialFontLinethrough,
     fontUnderline: initialFontUnderline,
     textAlign: initialTextAlign,
+    fontSize: initialFontSize,
   });
 
   const selectedObject = editor?.selectedObjects[0];
   const selectedObjectType = editor?.selectedObjects[0]?.type;
 
   const isText = isTextType(selectedObjectType);
+
+  const onChangeFontSize = (value: number) => {
+    if (!selectedObject) return;
+    const fontSize = isNaN(value) ? FONT_SIZE : value;
+
+    editor?.changeFontSize(fontSize);
+    setProperties((current) => ({ ...current, fontSize }));
+  };
 
   const onChangeTextAlign = (value: string) => {
     if (!selectedObject) return;
@@ -310,6 +327,15 @@ export const Toolbar = ({
               <AlignRightIcon />
             </Button>
           </Hint>
+        </div>
+      )}
+
+      {isText && (
+        <div className="flex h-full items-center justify-center">
+          <FontSizeInput
+            value={properties.fontSize}
+            onChange={onChangeFontSize}
+          />
         </div>
       )}
 
