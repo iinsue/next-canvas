@@ -24,6 +24,7 @@ import {
   FaUnderline as FaUnderlineIcon,
 } from "react-icons/fa";
 import { BsBorderWidth as BsBorderWidthIcon } from "react-icons/bs";
+import { TbColorFilter as TbColorFilterIcon } from "react-icons/tb";
 import {
   AlignLeftIcon,
   AlignRightIcon,
@@ -72,6 +73,7 @@ export const Toolbar = ({
   const selectedObjectType = editor?.selectedObjects[0]?.type;
 
   const isText = isTextType(selectedObjectType);
+  const isImage = selectedObjectType === "image";
 
   const onChangeFontSize = (value: number) => {
     if (!selectedObject) return;
@@ -132,21 +134,23 @@ export const Toolbar = ({
 
   return (
     <div className="z-[49] flex h-[56px] w-full shrink-0 items-center gap-x-2 overflow-x-auto border-b bg-white p-2">
-      <div className="flex h-full items-center justify-center">
-        <Hint label="Color" side="bottom" sideOffset={5}>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => onChangeActiveTool("fill")}
-            className={cn(activeTool === "fill" && "bg-gray-100")}
-          >
-            <div
-              className="size-4 rounded-md border"
-              style={{ backgroundColor: properties.fillColor }}
-            />
-          </Button>
-        </Hint>
-      </div>
+      {!isImage && (
+        <div className="flex h-full items-center justify-center">
+          <Hint label="Color" side="bottom" sideOffset={5}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => onChangeActiveTool("fill")}
+              className={cn(activeTool === "fill" && "bg-gray-100")}
+            >
+              <div
+                className="size-4 rounded-md border"
+                style={{ backgroundColor: properties.fillColor }}
+              />
+            </Button>
+          </Hint>
+        </div>
+      )}
 
       {!isText && (
         <div className="flex h-full items-center justify-center">
@@ -326,6 +330,24 @@ export const Toolbar = ({
               )}
             >
               <AlignRightIcon />
+            </Button>
+          </Hint>
+        </div>
+      )}
+
+      {isImage && (
+        <div className="flex h-full items-center justify-center">
+          <Hint label="Filters" side="bottom" sideOffset={5}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => onChangeActiveTool("filter")}
+              className={cn(
+                "[&_svg]:size-4",
+                activeTool === "filter" && "bg-gray-100",
+              )}
+            >
+              <TbColorFilterIcon />
             </Button>
           </Hint>
         </div>

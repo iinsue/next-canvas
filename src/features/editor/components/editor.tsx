@@ -13,6 +13,7 @@ import { FontSidebar } from "@/features/editor/components/font-sidebar";
 import { TextSidebar } from "@/features/editor/components/text-sidebar";
 import { ShapeSidebar } from "@/features/editor/components/shape-sidebar";
 import { ImageSidebar } from "@/features/editor/components/image-sidebar";
+import { FilterSidebar } from "@/features/editor/components/filter-sidebar";
 import { OpacitySidebar } from "@/features/editor/components/opacity-sidebar";
 import { FillColorSidebar } from "@/features/editor/components/fill-color-sidebar";
 import { StrokeColorSidebar } from "@/features/editor/components/stroke-color-sidebar";
@@ -123,6 +124,12 @@ export const Editor = () => {
         />
 
         <ImageSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+
+        <FilterSidebar
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
