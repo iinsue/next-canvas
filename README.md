@@ -1,3 +1,16 @@
+## 캔바 클론
+### 사용기술
+- Next.js 15
+- pnpm
+- shadcn-ui
+- tanstack-query
+- fabric.js
+- hono
+- zod
+- auth.js
+- drizzle ORM
+- supabase( PostgreSQL )
+
 ### pnpm
 
 프로젝트 생성
