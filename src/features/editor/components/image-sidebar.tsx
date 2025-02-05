@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
+import { UploadButton } from "@/lib/uploadthing";
 
 import { useGetImages } from "@/features/images/api/use-get-images";
 
@@ -41,6 +42,20 @@ export const ImageSidebar = ({
         title="Images"
         description="Add images to your canvas"
       />
+
+      <div className="border-b p-4">
+        <UploadButton
+          appearance={{
+            button: "w-full text-sm font-medium",
+            allowedContent: "hidden",
+          }}
+          content={{ button: "Upload Image" }}
+          endpoint="imageUploader"
+          onClientUploadComplete={(response) => {
+            editor?.addImage(response[0].url);
+          }}
+        />
+      </div>
 
       {isLoading && (
         <div className="flex flex-1 items-center justify-center">
