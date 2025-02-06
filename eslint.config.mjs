@@ -12,7 +12,7 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "prettier"),
+  ...compat.extends("next/core-web-vitals"),
   {
     plugins: {
       "@next/next": nextPlugin,
@@ -22,6 +22,8 @@ const eslintConfig = [
       // React Hooks 규칙을 추가합니다.
       "react-hooks/rules-of-hooks": "error", // Hook 규칙 강제
       "react-hooks/exhaustive-deps": "warn", // 의존성 배열 검사
+      // 들여쓰기 규칙 추가
+      indent: ["error", 2],
     },
   },
 ];
