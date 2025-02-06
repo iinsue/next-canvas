@@ -25,7 +25,6 @@ const app = new Hono().post(
     const output = await replicate.run("black-forest-labs/flux-schnell", {
       input,
     });
-    console.log({ output });
 
     const response = output as Array<string>;
 
