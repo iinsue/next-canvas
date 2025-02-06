@@ -12,8 +12,7 @@ const app = new Hono().post(
     const { prompt } = context.req.valid("json");
 
     const input = {
-      prompt:
-        'black forest gateau cake spelling out the words "FLUX SCHNELL", tasty, food photography, dynamic shot',
+      prompt: prompt,
       go_fast: true,
       megapixels: "1",
       num_outputs: 1,
@@ -26,8 +25,19 @@ const app = new Hono().post(
     const output = await replicate.run("black-forest-labs/flux-schnell", {
       input,
     });
+    console.log({ output });
 
     const response = output as Array<string>;
+
+    // 이미지를 파일형태로 반환하고 싶을때 사용할 코드
+    // 이때 lib/relicate.ts 에서 useFileOutput:false를 true로 변경하던지 삭제해야 합니다.
+    /* const response = output as ReadableStream[];
+    const reader = response[0].getReader();
+    const result = await reader.read();
+    const imageData = result.value;
+    // Blob으로 변환하고 URL 생성
+    const blob = new Blob([imageData], { type: "image/webp" });
+    const imageUrl = URL.createObjectURL(blob); */
 
     return context.json({ data: response[0] });
   },
