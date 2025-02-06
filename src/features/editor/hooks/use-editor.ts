@@ -24,7 +24,6 @@ import {
   FONT_SIZE,
 } from "@/features/editor/types";
 
-
 // Shape 추가 기능 담당
 const buildEditor = ({
   canvas,
@@ -78,19 +77,23 @@ const buildEditor = ({
       });
     },
     addImage: (value: string) => {
-      fabric.Image.fromURL(value, (image) => {
-        const workspace = getWorkspace();
+      fabric.Image.fromURL(
+        value,
+        (image) => {
+          const workspace = getWorkspace();
 
-        image.scaleToWidth(workspace?.width || 0);
-        image.scaleToHeight(workspace?.height || 0);
+          image.scaleToWidth(workspace?.width || 0);
+          image.scaleToHeight(workspace?.height || 0);
 
-        addToCanvas(image);
-      }, {
-        crossOrigin: "anonymous"
-      })
+          addToCanvas(image);
+        },
+        {
+          crossOrigin: "anonymous",
+        },
+      );
     },
     delete: () => {
-      canvas.getActiveObjects().forEach(object => canvas.remove(object))
+      canvas.getActiveObjects().forEach((object) => canvas.remove(object));
       canvas.discardActiveObject();
       canvas.renderAll();
     },
@@ -219,7 +222,6 @@ const buildEditor = ({
     changeFontStyle: (value: string) => {
       canvas.getActiveObjects().forEach((object) => {
         if (isTextType(object.type)) {
-
           // @ts-ignore
           // fontStyle은 존재함.-TS Library에러
           object.set({ fontStyle: value });
@@ -245,7 +247,6 @@ const buildEditor = ({
     changeFontWeight: (value: number) => {
       canvas.getActiveObjects().forEach((object) => {
         if (isTextType(object.type)) {
-
           // @ts-ignore
           // fontWeight는 존재함.-TS Library에러
           object.set({ fontWeight: value });
@@ -543,7 +544,6 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
         selectedObjects,
         fontFamily,
         setFontFamily,
-
       });
     }
 
@@ -555,7 +555,7 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
     strokeWidth,
     selectedObjects,
     strokeDashArray,
-    fontFamily
+    fontFamily,
   ]);
 
   const init = useCallback(
