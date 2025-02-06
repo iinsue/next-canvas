@@ -9,6 +9,7 @@ import { Footer } from "@/features/editor/components/footer";
 import { Navbar } from "@/features/editor/components/navbar";
 import { Toolbar } from "@/features/editor/components/toolbar";
 import { Sidebar } from "@/features/editor/components/sidebar";
+import { AiSidebar } from "@/features/editor/components/ai-sidebar";
 import { FontSidebar } from "@/features/editor/components/font-sidebar";
 import { TextSidebar } from "@/features/editor/components/text-sidebar";
 import { ShapeSidebar } from "@/features/editor/components/shape-sidebar";
@@ -130,6 +131,12 @@ export const Editor = () => {
         />
 
         <FilterSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+
+        <AiSidebar
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
