@@ -104,7 +104,7 @@ export const createFilter = (value: string) => {
     case "gamma":
       // @ts-ignore
       effect = new fabric.Image.filters.Gamma({
-        gamma: [1, 0.5, 2.1]
+        gamma: [1, 0.5, 2.1],
       });
       break;
     case "saturation":
@@ -115,7 +115,7 @@ export const createFilter = (value: string) => {
     default:
       effect = null;
       return;
-  };
+  }
 
   return effect;
-}
+};
