@@ -34,6 +34,7 @@ import {
   ChevronDownIcon,
   TrashIcon,
   SquareSplitHorizontalIcon,
+  CopyIcon,
 } from "lucide-react";
 
 interface ToolbarProps {
@@ -419,6 +420,25 @@ export const Toolbar = ({
             )}
           >
             <RxTransparencyGrid />
+          </Button>
+        </Hint>
+      </div>
+
+      <div className="flex h-full items-center justify-center">
+        <Hint label="Duplicate" side="bottom" sideOffset={5}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => {
+              editor?.onCopy();
+              editor?.onPaste();
+            }}
+            className={cn(
+              activeTool === "opacity" && "bg-gray-100",
+              "[&_svg]:size-4",
+            )}
+          >
+            <CopyIcon />
           </Button>
         </Hint>
       </div>
