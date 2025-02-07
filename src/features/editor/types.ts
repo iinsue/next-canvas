@@ -168,6 +168,7 @@ export interface EditorHookProps {
 }
 
 export type BuildEditorProps = {
+  autoZoom: () => void;
   copy: () => void;
   paste: () => void;
   canvas: fabric.Canvas;
@@ -186,6 +187,9 @@ export type BuildEditorProps = {
 
 // 에디터에서 수행하는 이벤트 타입
 export interface Editor {
+  getWorkspace: () => fabric.Object | undefined;
+  changeSize: (value: { width: number; height: number }) => void;
+  changeBackground: (value: string) => void;
   enableDrawingMode: () => void;
   disableDrawingMode: () => void;
   onCopy: () => void;
