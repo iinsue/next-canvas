@@ -1,6 +1,6 @@
 "use client";
 
-import { ActiveTool } from "@/features/editor/types";
+import { ActiveTool, Editor } from "@/features/editor/types";
 import { Logo } from "@/features/editor/components/logo";
 
 import { Hint } from "@/components/hint";
@@ -25,11 +25,16 @@ import {
 import { cn } from "@/lib/utils";
 
 interface NavbarProps {
+  editor: Editor | undefined;
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
 }
 
-export const Navbar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
+export const Navbar = ({
+  editor,
+  activeTool,
+  onChangeActiveTool,
+}: NavbarProps) => {
   return (
     <nav className="flex h-[68px] w-full items-center gap-x-8 border-b p-4 lg:pl-[34px]">
       <Logo />
@@ -73,11 +78,10 @@ export const Navbar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
 
         <Hint label="Undo" side="bottom" sideOffset={10}>
           <Button
+            disabled={!editor?.canUndo()}
             variant="ghost"
             size="icon"
-            onClick={() => {
-              // TODO: 뒤로 되돌리기 기능
-            }}
+            onClick={() => editor?.onUndo()}
             className="" // TODO: 동적 스타일 추가
           >
             <Undo2Icon className="size-4" />
@@ -86,11 +90,10 @@ export const Navbar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
 
         <Hint label="Redo" side="bottom" sideOffset={10}>
           <Button
+            disabled={!editor?.canRedo()}
             variant="ghost"
             size="icon"
-            onClick={() => {
-              // TODO: 앞으로 되돌리기 기능
-            }}
+            onClick={() => editor?.onRedo()}
             className="" // TODO: 동적 스타일 추가
           >
             <Redo2Icon className="size-4" />
