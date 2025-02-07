@@ -33,6 +33,7 @@ import {
   ArrowUpIcon,
   ChevronDownIcon,
   TrashIcon,
+  SquareSplitHorizontalIcon,
 } from "lucide-react";
 
 interface ToolbarProps {
@@ -348,6 +349,24 @@ export const Toolbar = ({
               )}
             >
               <TbColorFilterIcon />
+            </Button>
+          </Hint>
+        </div>
+      )}
+
+      {isImage && (
+        <div className="flex h-full items-center justify-center">
+          <Hint label="Remove background" side="bottom" sideOffset={5}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => onChangeActiveTool("remove-bg")}
+              className={cn(
+                "[&_svg]:size-4",
+                activeTool === "remove-bg" && "bg-gray-100",
+              )}
+            >
+              <SquareSplitHorizontalIcon />
             </Button>
           </Hint>
         </div>
