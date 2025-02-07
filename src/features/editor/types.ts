@@ -2,6 +2,17 @@ import { fabric } from "fabric";
 import { ITextboxOptions } from "fabric/fabric-impl";
 import * as material from "material-colors";
 
+export const JSON_KEYS = [
+  "name",
+  "gradientAngle",
+  "selectable",
+  "hasControls",
+  "linkData",
+  "editable",
+  "extensionType",
+  "extension",
+];
+
 // 이미지 필터 리스트
 export const filters = [
   "none",
@@ -168,6 +179,11 @@ export interface EditorHookProps {
 }
 
 export type BuildEditorProps = {
+  save: (skip?: boolean) => void;
+  undo: () => void;
+  redo: () => void;
+  canUndo: () => boolean;
+  canRedo: () => boolean;
   autoZoom: () => void;
   copy: () => void;
   paste: () => void;
@@ -187,6 +203,10 @@ export type BuildEditorProps = {
 
 // 에디터에서 수행하는 이벤트 타입
 export interface Editor {
+  onUndo: () => void;
+  onRedo: () => void;
+  canUndo: () => boolean;
+  canRedo: () => boolean;
   autoZoom: () => void;
   zoomIn: () => void;
   zoomOut: () => void;
