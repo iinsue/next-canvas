@@ -16,6 +16,7 @@ import { ShapeSidebar } from "@/features/editor/components/shape-sidebar";
 import { ImageSidebar } from "@/features/editor/components/image-sidebar";
 import { FilterSidebar } from "@/features/editor/components/filter-sidebar";
 import { OpacitySidebar } from "@/features/editor/components/opacity-sidebar";
+import { RemoveBgSidebar } from "@/features/editor/components/remove-bg-sidebar";
 import { FillColorSidebar } from "@/features/editor/components/fill-color-sidebar";
 import { StrokeColorSidebar } from "@/features/editor/components/stroke-color-sidebar";
 import { StrokeWidthSidebar } from "@/features/editor/components/stroke-width-sidebar";
@@ -137,6 +138,12 @@ export const Editor = () => {
         />
 
         <AiSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+
+        <RemoveBgSidebar
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
