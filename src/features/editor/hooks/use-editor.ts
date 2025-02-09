@@ -3,6 +3,7 @@ import { useCallback, useMemo, useState } from "react";
 
 import { createFilter, isTextType } from "@/features/editor/utils";
 
+import { useHotkeys } from "@/features/editor/hooks/use-hotkeys";
 import { useHistory } from "@/features/editor/hooks/use-history";
 import { useClipboard } from "@/features/editor/hooks/use-clipboard";
 import { useAutoResize } from "@/features/editor/hooks/use-auto-resize";
@@ -599,6 +600,8 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
   });
 
   useCanvasEvents({ save, canvas, setSelectedObjects, clearSelectionCallback });
+
+  useHotkeys({ undo, redo, copy, paste, save, canvas });
 
   const editor = useMemo(() => {
     if (canvas) {
