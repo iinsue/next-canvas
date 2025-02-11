@@ -1,5 +1,7 @@
 "use client";
 
+import { useFilePicker } from "use-file-picker";
+
 import { ActiveTool, Editor } from "@/features/editor/types";
 import { Logo } from "@/features/editor/components/logo";
 
@@ -35,6 +37,21 @@ export const Navbar = ({
   activeTool,
   onChangeActiveTool,
 }: NavbarProps) => {
+  // 파일열기
+  const { openFilePicker } = useFilePicker({
+    accept: ".json",
+    onFilesSuccessfullySelected: ({ plainFiles }: any) => {
+      if (plainFiles && plainFiles.length > 0) {
+        const file = plainFiles[0];
+        const reader = new FileReader();
+        reader.readAsText(file, "UTF-8");
+        reader.onload = () => {
+          editor?.loadJson(reader.result as string);
+        };
+      }
+    },
+  });
+
   return (
     <nav className="flex h-[68px] w-full items-center gap-x-8 border-b p-4 lg:pl-[34px]">
       <Logo />
@@ -48,9 +65,7 @@ export const Navbar = ({
           <DropdownMenuContent align="start" className="min-w-60">
             <DropdownMenuItem
               className="flex items-center gap-x-2 [&_svg]:size-8"
-              onClick={() => {
-                // TODO: JSON 파일열기기능
-              }}
+              onClick={() => openFilePicker()}
             >
               <CiFileOnIcon />
               <div>
@@ -119,9 +134,7 @@ export const Navbar = ({
             <DropdownMenuContent align="end" className="min-w-60">
               <DropdownMenuItem
                 className="flex items-center gap-x-2 [&_svg]:size-8"
-                onClick={() => {
-                  //TODO: JSON파일로 저장
-                }}
+                onClick={() => editor?.saveJson()}
               >
                 <CiFileOnIcon />
                 <div>
@@ -134,9 +147,7 @@ export const Navbar = ({
 
               <DropdownMenuItem
                 className="flex items-center gap-x-2 [&_svg]:size-8"
-                onClick={() => {
-                  //TODO: PNG파일로 저장
-                }}
+                onClick={() => editor?.savePng()}
               >
                 <CiFileOnIcon />
                 <div>
@@ -149,9 +160,7 @@ export const Navbar = ({
 
               <DropdownMenuItem
                 className="flex items-center gap-x-2 [&_svg]:size-8"
-                onClick={() => {
-                  //TODO: JPG파일로 저장
-                }}
+                onClick={() => editor?.saveJpg()}
               >
                 <CiFileOnIcon />
                 <div>
@@ -164,9 +173,7 @@ export const Navbar = ({
 
               <DropdownMenuItem
                 className="flex items-center gap-x-2 [&_svg]:size-8"
-                onClick={() => {
-                  //TODO: SVG파일로 저장
-                }}
+                onClick={() => editor?.saveSvg()}
               >
                 <CiFileOnIcon />
                 <div>

@@ -203,6 +203,11 @@ export type BuildEditorProps = {
 
 // 에디터에서 수행하는 이벤트 타입
 export interface Editor {
+  savePng: () => void;
+  saveJpg: () => void;
+  saveSvg: () => void;
+  saveJson: () => void;
+  loadJson: (json: string) => void;
   onUndo: () => void;
   onRedo: () => void;
   canUndo: () => boolean;
