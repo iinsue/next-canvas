@@ -96,3 +96,25 @@ pnpm dlx shadcn@latest init
 ```bash
 pnpm dlx shadcn@latest add
 ```
+
+### 환경 변수 목록
+```bash
+# Unsplash Access Key
+NEXT_PUBLIC_UNSPLASH_ACCESS_KEY
+
+# 이미지 업로드하는 Uploadthing 토큰
+UPLOADTHING_TOKEN
+
+# AI 이미지 생성 Replicate 토큰
+REPLICATE_API_TOKEN
+
+# Auth.js Secret
+AUTH_SECRET
+
+# Github
+AUTH_GITHUB_ID
+AUTH_GITHUB_SECRET
+
+# Neon DB URL
+DATABASE_URL
+```
