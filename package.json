@@ -6,10 +6,15 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.7.4",
     "@hono/zod-validator": "^0.4.2",
+    "@neondatabase/serverless": "^0.10.4",
     "@radix-ui/react-dropdown-menu": "^2.1.5",
     "@radix-ui/react-label": "^2.1.1",
     "@radix-ui/react-scroll-area": "^1.2.2",
@@ -21,6 +26,7 @@
     "@uploadthing/react": "^7.1.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "drizzle-orm": "^0.39.3",
     "fabric": "5.3.0-browser",
     "hono": "^4.6.20",
     "lucide-react": "^0.474.0",
@@ -53,6 +59,8 @@
     "@types/react-color": "^3.0.13",
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.20",
+    "dotenv": "^16.4.7",
+    "drizzle-kit": "^0.30.4",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
     "eslint-plugin-react-hooks": "^5.1.0",
