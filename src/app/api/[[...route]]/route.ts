@@ -5,8 +5,9 @@ import { AuthConfig, initAuthConfig } from "@hono/auth-js";
 import authConfig from "@/auth.config";
 
 import ai from "./ai";
-import images from "./images";
 import users from "./users";
+import images from "./images";
+import projects from "./projects";
 
 // Revert to "edge" if planning on running on the edge
 export const runtime = "nodejs";
@@ -25,7 +26,8 @@ app.use("*", initAuthConfig(getAuthConfig));
 const routes = app
   .route("/ai", ai)
   .route("/images", images)
-  .route("/users", users);
+  .route("/users", users)
+  .route("/projects", projects);
 
 // 기존 API를 덮어씁니다.
 export const GET = handle(app);

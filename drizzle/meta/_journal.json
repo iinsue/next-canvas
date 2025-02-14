@@ -15,6 +15,13 @@
       "when": 1739475820034,
       "tag": "0001_demonic_vin_gonzales",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1739523704733,
+      "tag": "0002_steady_lenny_balinger",
+      "breakpoints": true
     }
   ]
 }
