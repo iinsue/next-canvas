@@ -8,9 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@auth/core':
+        specifier: ^0.37.4
+        version: 0.37.4
       '@auth/drizzle-adapter':
         specifier: ^1.7.4
         version: 1.7.4
+      '@hono/auth-js':
+        specifier: ^1.0.15
+        version: 1.0.15(@auth/core@0.37.4)(hono@4.6.20)(react@19.0.0)
       '@hono/zod-validator':
         specifier: ^0.4.2
         version: 0.4.2(hono@4.6.20)(zod@3.24.1)
@@ -608,6 +614,14 @@ packages:
 
   '@floating-ui/utils@0.2.9':
     resolution: {integrity: sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==}
+
+  '@hono/auth-js@1.0.15':
+    resolution: {integrity: sha512-nuTP9zZBjJnHTCybQhC3cbTgboElhnlSuPFFogRcDUs9uqBd1mC2EM2jFlaErqim3laU325jP4j2tRCqiZnRHQ==}
+    engines: {node: '>=18.4.0'}
+    peerDependencies:
+      '@auth/core': 0.*
+      hono: '>=3.*'
+      react: ^18 || ^19 || ^19.0.0-rc
 
   '@hono/zod-validator@0.4.2':
     resolution: {integrity: sha512-1rrlBg+EpDPhzOV4hT9pxr5+xDVmKuz6YJl+la7VCwK6ass5ldyKm5fD+umJdV2zhHD6jROoCCv8NbTwyfhT0g==}
@@ -3683,6 +3697,12 @@ snapshots:
       react-dom: 19.0.0(react@19.0.0)
 
   '@floating-ui/utils@0.2.9': {}
+
+  '@hono/auth-js@1.0.15(@auth/core@0.37.4)(hono@4.6.20)(react@19.0.0)':
+    dependencies:
+      '@auth/core': 0.37.4
+      hono: 4.6.20
+      react: 19.0.0
 
   '@hono/zod-validator@0.4.2(hono@4.6.20)(zod@3.24.1)':
     dependencies:
