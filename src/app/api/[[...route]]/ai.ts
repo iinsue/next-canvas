@@ -3,10 +3,14 @@ import { Hono } from "hono";
 import { replicate } from "@/lib/replicate";
 import { zValidator } from "@hono/zod-validator";
 
+// 로그인 유저 판단
+import { verifyAuth } from "@hono/auth-js";
+
 const app = new Hono()
   .post(
     "/generate-image",
     // Add verification
+    verifyAuth(),
     zValidator("json", z.object({ prompt: z.string() })),
 
     async (context) => {
@@ -44,6 +48,7 @@ const app = new Hono()
   )
   .post(
     "/remove-bg",
+    verifyAuth(),
     zValidator("json", z.object({ image: z.string() })),
     async (context) => {
       const { image } = context.req.valid("json");
