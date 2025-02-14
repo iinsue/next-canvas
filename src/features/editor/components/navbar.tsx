@@ -25,6 +25,7 @@ import {
   Undo2Icon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { UserButton } from "@/features/auth/components/user-button";
 
 interface NavbarProps {
   editor: Editor | undefined;
@@ -185,7 +186,8 @@ export const Navbar = ({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          {/* TODO: 사용자 버튼  */}
+
+          <UserButton />
         </div>
       </div>
     </nav>
