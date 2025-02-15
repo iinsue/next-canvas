@@ -5,9 +5,14 @@ import { JSON_KEYS } from "@/features/editor/types";
 
 interface UseHistoryProps {
   canvas: fabric.Canvas | null;
+  saveCallback?: (values: {
+    json: string;
+    width: number;
+    height: number;
+  }) => void;
 }
 
-export const useHistory = ({ canvas }: UseHistoryProps) => {
+export const useHistory = ({ canvas, saveCallback }: UseHistoryProps) => {
   const [historyIndex, setHistoryIndex] = useState(0);
   const canvasHistory = useRef<string[]>([]);
   const skipSave = useRef(false);
@@ -32,9 +37,15 @@ export const useHistory = ({ canvas }: UseHistoryProps) => {
         setHistoryIndex(canvasHistory.current.length - 1);
       }
 
-      // TODO: Save callback
+      const workspace = canvas
+        .getObjects()
+        .find((object) => object.name === "clip");
+      const width = workspace?.width ?? 0;
+      const height = workspace?.height ?? 0;
+
+      saveCallback?.({ json, width, height });
     },
-    [canvas],
+    [canvas, saveCallback],
   );
 
   // Undo는 DB에서 불러온 것이기 때문에 저장을 스킵해야 합니다.
