@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
 
 import { useGetProjects } from "@/features/projects/api/use-get-projects";
+import { useDuplicateProject } from "@/features/projects/api/use-duplicate-project";
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import {
@@ -28,6 +29,12 @@ import { Button } from "@/components/ui/button";
 
 export const ProjectsSection = () => {
   const router = useRouter();
+
+  const duplicateMutation = useDuplicateProject();
+
+  const onCopy = (id: string) => {
+    duplicateMutation.mutate({ id });
+  };
 
   const { data, status, fetchNextPage, isFetchingNextPage, hasNextPage } =
     useGetProjects();
@@ -118,8 +125,8 @@ export const ProjectsSection = () => {
                       <DropdownMenuContent className="w-60" align="end">
                         <DropdownMenuItem
                           className="h-10 cursor-pointer [&_svg]:size-4"
-                          disabled={false}
-                          onClick={() => {}}
+                          disabled={duplicateMutation.isPending}
+                          onClick={() => onCopy(project.id)}
                         >
                           <CopyIcon className="mr-2" />
                           <span>Make a copy</span>
