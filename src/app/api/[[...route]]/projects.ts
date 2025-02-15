@@ -140,6 +140,45 @@ const app = new Hono()
         nextPage: data.length === limit ? page + 1 : null,
       });
     },
+  )
+  .post(
+    "/:id/duplicate",
+    verifyAuth(),
+    zValidator("param", z.object({ id: z.string() })),
+    async (context) => {
+      const auth = context.get("authUser");
+      const { id } = context.req.valid("param");
+
+      if (!auth.token?.id) {
+        return context.json({ error: "Unauthorized" });
+      }
+
+      const data = await db
+        .select()
+        .from(projects)
+        .where(and(eq(projects.id, id), eq(projects.userId, auth.token.id)));
+
+      if (data.length === 0) {
+        return context.json({ error: "Not found" }, 404);
+      }
+
+      const project = data[0];
+
+      const duplicateData = await db
+        .insert(projects)
+        .values({
+          name: `Copy of ${project.name}`,
+          json: project.json,
+          width: project.width,
+          height: project.height,
+          userId: auth.token.id,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        })
+        .returning();
+
+      return context.json({ data: duplicateData[0] });
+    },
   );
 
 export default app;
