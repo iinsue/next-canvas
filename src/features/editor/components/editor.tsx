@@ -1,9 +1,11 @@
 "use client";
 
 import { fabric } from "fabric";
+import debounce from "lodash.debounce";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useEditor } from "@/features/editor/hooks/use-editor";
+import { useUpdateProject } from "@/features/projects/api/use-update-project";
 
 import { Footer } from "@/features/editor/components/footer";
 import { Navbar } from "@/features/editor/components/navbar";
@@ -23,9 +25,24 @@ import { FillColorSidebar } from "@/features/editor/components/fill-color-sideba
 import { StrokeColorSidebar } from "@/features/editor/components/stroke-color-sidebar";
 import { StrokeWidthSidebar } from "@/features/editor/components/stroke-width-sidebar";
 
+import { ResponseType } from "@/features/projects/api/use-get-project";
 import { ActiveTool, selectionDependentTools } from "@/features/editor/types";
 
-export const Editor = () => {
+interface EditorProps {
+  initialData: ResponseType["data"];
+}
+
+export const Editor = ({ initialData }: EditorProps) => {
+  const { mutate } = useUpdateProject(initialData.id);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedSave = useCallback(
+    debounce((values: { json: string; height: number; width: number }) => {
+      mutate(values);
+    }, 500),
+    [mutate],
+  );
+
   const [activeTool, setActiveTool] = useState<ActiveTool>("select");
 
   const onClearSelection = useCallback(() => {
@@ -35,7 +52,11 @@ export const Editor = () => {
   }, [activeTool]);
 
   const { init, editor } = useEditor({
+    defaultState: initialData.json,
+    defaultWidth: initialData.width,
+    defaultHeight: initialData.height,
     clearSelectionCallback: onClearSelection,
+    saveCallback: debouncedSave,
   });
 
   const onChangeActiveTool = useCallback(
@@ -79,9 +100,10 @@ export const Editor = () => {
   return (
     <div className="flex h-full flex-col">
       <Navbar
+        editor={editor}
+        id={initialData.id}
         activeTool={activeTool}
         onChangeActiveTool={onChangeActiveTool}
-        editor={editor}
       />
       <div className="absolute top-[68px] flex h-[calc(100%-68px)] w-full">
         <Sidebar
