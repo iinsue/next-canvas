@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { formatDistanceToNow } from "date-fns";
 
 import { useGetProjects } from "@/features/projects/api/use-get-projects";
+import { useDeleteProject } from "@/features/projects/api/use-delete-project";
 import { useDuplicateProject } from "@/features/projects/api/use-duplicate-project";
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
@@ -26,14 +27,28 @@ import {
   TrashIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useConfirm } from "@/hooks/use-confirm";
 
 export const ProjectsSection = () => {
   const router = useRouter();
 
+  const [ConfirmDialog, confirm] = useConfirm(
+    "Are you sure?",
+    "You are about to delete this projects.",
+  );
+
   const duplicateMutation = useDuplicateProject();
+  const removeMutation = useDeleteProject();
 
   const onCopy = (id: string) => {
     duplicateMutation.mutate({ id });
+  };
+
+  const onDelete = async (id: string) => {
+    const ok = await confirm();
+    if (ok) {
+      removeMutation.mutate({ id });
+    }
   };
 
   const { data, status, fetchNextPage, isFetchingNextPage, hasNextPage } =
@@ -64,7 +79,7 @@ export const ProjectsSection = () => {
     );
   }
 
-  if (!data.pages.length) {
+  if (!data.pages.length || !data.pages[0].data.length) {
     return (
       <div className="space-y-4">
         <h3 className="text-lg font-semibold">Recent projects</h3>
@@ -78,6 +93,7 @@ export const ProjectsSection = () => {
 
   return (
     <div className="space-y-4">
+      <ConfirmDialog />
       <h3 className="text-lg font-semibold">Recent projects</h3>
       <Table>
         <TableBody>
@@ -134,11 +150,11 @@ export const ProjectsSection = () => {
 
                         <DropdownMenuItem
                           className="h-10 cursor-pointer [&_svg]:size-4"
-                          disabled={false}
-                          onClick={() => {}}
+                          disabled={removeMutation.isPending}
+                          onClick={() => onDelete(project.id)}
                         >
-                          <TrashIcon className="mr-2" />
-                          <span>Delete</span>
+                          <TrashIcon className="mr-2 text-destructive" />
+                          <span className="text-destructive">Delete</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

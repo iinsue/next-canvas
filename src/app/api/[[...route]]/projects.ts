@@ -179,6 +179,30 @@ const app = new Hono()
 
       return context.json({ data: duplicateData[0] });
     },
+  )
+  .delete(
+    "/:id",
+    verifyAuth(),
+    zValidator("param", z.object({ id: z.string() })),
+    async (context) => {
+      const auth = context.get("authUser");
+      const { id } = context.req.valid("param");
+
+      if (!auth.token?.id) {
+        return context.json({ error: "Unauthorized" }, 401);
+      }
+
+      const data = await db
+        .delete(projects)
+        .where(and(eq(projects.id, id), eq(projects.userId, auth.token.id)))
+        .returning();
+
+      if (data.length === 0) {
+        return context.json({ error: "Not found" }, 404);
+      }
+
+      return context.json({ data: { id } });
+    },
   );
 
 export default app;
