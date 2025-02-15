@@ -2,13 +2,14 @@ import Image from "next/image";
 
 import { cn } from "@/lib/utils";
 
+import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
 import { ToolSidebarClose } from "@/features/editor/components/tool-sidebar-close";
 import { ToolSidebarHeader } from "@/features/editor/components/tool-sidebar-header";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { ActiveTool, Editor } from "@/features/editor/types";
-import { AlertTriangleIcon, LoaderIcon } from "lucide-react";
+import { AlertTriangleIcon, CrownIcon, LoaderIcon } from "lucide-react";
 import {
   ResponseType,
   useGetTemplates,
@@ -31,6 +32,8 @@ export const TemplateSidebar = ({
     "You are about to replace the current project with this template.",
   );
 
+  const { shouldBlock, triggerPaywall } = usePaywall();
+
   const { data, isLoading, isError } = useGetTemplates({
     limit: "20",
     page: "1",
@@ -41,7 +44,11 @@ export const TemplateSidebar = ({
   };
 
   const onClick = async (template: ResponseType["data"][0]) => {
-    // TODO: Check if template is pro
+    if (template.isPro && shouldBlock) {
+      triggerPaywall();
+      return;
+    }
+
     const ok = await confirm();
     if (ok) {
       editor?.loadJson(template.json);
@@ -96,6 +103,13 @@ export const TemplateSidebar = ({
                       alt={template.name ?? "Template"}
                       className="object-cover"
                     />
+
+                    {template.isPro && (
+                      <div className="absolute right-2 top-2 flex size-8 items-center justify-center rounded-full bg-black/50">
+                        <CrownIcon className="size-4 fill-yellow-500 text-yellow-500" />
+                      </div>
+                    )}
+
                     <div className="absolute bottom-0 left-0 w-full truncate bg-black/50 p-1 text-left text-[10px] text-white opacity-0 transition group-hover:opacity-100">
                       {template.name}
                     </div>

@@ -1,9 +1,11 @@
 import Image from "next/image";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 import { useRemoveBg } from "@/features/ai/api/use-remove-background";
 
 import { ActiveTool, Editor } from "@/features/editor/types";
+import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
 import { ToolSidebarClose } from "@/features/editor/components/tool-sidebar-close";
 import { ToolSidebarHeader } from "@/features/editor/components/tool-sidebar-header";
 
@@ -11,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { AlertTriangle } from "lucide-react";
-import { toast } from "sonner";
 
 interface RemoveBgSidebarProps {
   editor: Editor | undefined;
@@ -25,6 +26,7 @@ export const RemoveBgSidebar = ({
   onChangeActiveTool,
 }: RemoveBgSidebarProps) => {
   const mutation = useRemoveBg();
+  const { shouldBlock, triggerPaywall } = usePaywall();
 
   const selectedObject = editor?.selectedObjects[0];
 
@@ -36,7 +38,10 @@ export const RemoveBgSidebar = ({
   };
 
   const onClick = () => {
-    // TODO: Block with paywall
+    if (shouldBlock) {
+      triggerPaywall();
+      return;
+    }
 
     mutation.mutate(
       { image: imageSrc },
