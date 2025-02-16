@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useCheckout } from "@/features/subscriptions/api/use-checkout";
 import { useSubscriptionModal } from "@/features/subscriptions/store/use-subscription-modal";
 
 import { Separator } from "@/components/ui/separator";
@@ -12,10 +13,11 @@ import {
   DialogContent,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { CheckCircle2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CheckCircle2Icon } from "lucide-react";
 
 export const SubscriptionModal = () => {
+  const mutation = useCheckout();
   const { isOpen, onClose } = useSubscriptionModal();
 
   return (
@@ -58,8 +60,8 @@ export const SubscriptionModal = () => {
         <DialogFooter className="mt-4 gap-y-2 pt-2">
           <Button
             className="w-full bg-indigo-800 text-base font-semibold uppercase tracking-wide hover:bg-indigo-800/80"
-            onClick={() => {}}
-            disabled={false}
+            onClick={() => mutation.mutate()}
+            disabled={mutation.isPending}
           >
             Upgrade
           </Button>

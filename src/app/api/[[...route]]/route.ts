@@ -8,6 +8,7 @@ import ai from "./ai";
 import users from "./users";
 import images from "./images";
 import projects from "./projects";
+import subscriptions from "./subscriptions";
 
 // Revert to "edge" if planning on running on the edge
 export const runtime = "nodejs";
@@ -27,7 +28,8 @@ const routes = app
   .route("/ai", ai)
   .route("/images", images)
   .route("/users", users)
-  .route("/projects", projects);
+  .route("/projects", projects)
+  .route("/subscriptions", subscriptions);
 
 // 기존 API를 덮어씁니다.
 export const GET = handle(app);
