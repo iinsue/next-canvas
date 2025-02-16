@@ -71,7 +71,7 @@ export const UserButton = () => {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="h-10 [&_svg]:size-4"
-          onClick={() => signOut()}
+          onClick={() => signOut({ redirectTo: "/sign-in" })}
         >
           <LogOutIcon className="mr-2" />
           Log out
