@@ -10,6 +10,38 @@
 - auth.js
 - drizzle ORM
 - supabase( PostgreSQL )
+- stripe
+- zustand
+
+## Local 환경 구동 명령어
+### pnpm
+```bash
+pnpm run dev
+```
+
+### stripe webhook
+```bash
+stripe listen --forward-to localhost:3000/api/subscriptions/webhook
+```
+
+Drizzle 스키마를 기반으로 SQL 마이그레이션 파일을 생성
+```bash
+pnpm db:generate
+```
+
+SQL 마이그레이션을 실행하고 적용된 마이그레이션을 drizzle 마이그레이션 테이블에 기록
+```bash
+pnpm db:migrate
+```
+
+Drizzle ORM 프로젝트를 위한 데이터베이스 브라우저 도구 구동동
+```bash
+pnpm db:studio
+```
+<br/>
+
+---
+
 
 ### pnpm
 
@@ -117,4 +149,10 @@ AUTH_GITHUB_SECRET
 
 # Neon DB URL
 DATABASE_URL
+
+# Stripe
+STRIPE_SECRET_KEY
+STRIPE_PRICE_ID
+# Stripe Login 이후 두번째 stripe listen --forward-to 명령어 수행 시 발생
+STRIPE_WEBHOOK_SECRET
 ```
